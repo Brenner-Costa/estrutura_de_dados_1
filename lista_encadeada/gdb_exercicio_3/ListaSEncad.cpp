@@ -4,53 +4,34 @@ using namespace std;
 #include "ListaSEncad.h"
 
 // IMPLEMENTE AQUI
-void ListaSEncad::RemoveTodos(int v)
+void ListaSEncad::InsereOrdenado(int v)
 {
-
-    // Encontrado o no, irei dar um delete e um nullptr
-
-    // MANIPULAÇAO DOS PONTEIROS
-    //  Criar um aux para o anterior de V
-    //  Mudar o proximo do no apontado por aux para o proximo de V
-
+    NoSEncad *p = new NoSEncad();
+    NoSEncad *ant = nullptr, *atual = primeiro; //atual recebe o endereco de memoria apontado por primeiro 
+    //atual sempre vai apontar para o primeiro
+    p->AlteraValor(v);
+    while (atual != nullptr && v >= atual->ObterValor())
     {
-        // Ponteiros para percorrer a lista
-        NoSEncad *atual = this->primeiro;
-        NoSEncad *anterior = nullptr;
-
-        // Iterar por todos os nós
-        while (atual != nullptr)
-        {
-            if (atual->ObterValor() == v)
-            {
-                // Se o nó atual contém o valor a ser removido
-                if (anterior == nullptr)
-                {
-                    // Caso especial: o nó atual é o primeiro
-                    this->primeiro = atual->ObterProximo();
-                }
-                else
-                {
-                    // Nó intermediário ou final: desconectar o atual
-                    anterior->AlteraProximo(atual->ObterProximo());
-                }
-
-                // Remover o nó atual
-                NoSEncad *tmp = atual; //ele pega o lugar para onde atual aponta e remove
-                atual = atual->ObterProximo(); //atual aponta para o novo atual
-                delete tmp; //deleta o antigo atual que contém v
-                tmp = nullptr;
-            }
-            else
-            {
-                // Avançar para o próximo nó
-                anterior = atual;
-                atual = atual->ObterProximo();
-            }
-        }
+        //Para o atual ser diferente de nullptr a lista precisa ter pelo menos 1 nó
+        // O valor a ser adicionado na lista precisa ser maior que o valor do atual 
+        //Esse while basicamente faz o atual e anterior andarem do primeiro nó até o último.
+        ant = atual; //ant recebe o endereco de memoria armazenado em atual
+        atual = atual->ObterProximo();
+    }
+    if (ant == nullptr)
+    {
+    
+        p->AlteraProximo(primeiro); // APONTA PARA O ANTIGO ENDEREÇO DE MEMORIA APONTADO POR PRIMEIRO
+        primeiro = p; //PRIMEIRO AGORA APONTA PARA O NOVO PRIMEIRO NÓ DA LISTA
+    }
+    else
+    {
+        ant->AlteraProximo(p); //FAZ O ANTERIOR APONTAR PARA O ÚLTIMO QUE É O P 
+        p->AlteraProximo(atual); //SEMPRE VAI APONTAR PARA NULL PORQUE ELE SERÁ O ÚLTIMO DA LISTA
     }
 }
 
+// Construtor
 ListaSEncad::ListaSEncad() : primeiro(nullptr)
 {
 }
@@ -59,49 +40,6 @@ ListaSEncad::ListaSEncad() : primeiro(nullptr)
 bool ListaSEncad::EhVazia()
 {
     return this->primeiro == nullptr;
-}
-
-// Insere valor na frente da lista
-void ListaSEncad::InserePrimeiro(int valor)
-{
-
-    // Se lista vazia, crie novo nó e faça primeiro apontar para ele
-    if (this->primeiro == nullptr)
-    {
-        this->primeiro = new NoSEncad(valor);
-        return;
-    }
-
-    // Para lista não vazia,
-    // Crie novo nó, faça o atual primeiro ser
-    // o proximo do novo no e faça primeiro apontar
-    // para o novo no.
-
-    NoSEncad *node = new NoSEncad(valor);
-    node->AlteraProximo(primeiro);
-    primeiro = node;
-}
-
-// Insere valor na ultima posição da lista
-void ListaSEncad::Insere(int valor)
-{
-
-    // Se lista vazia, crie novo nó e faça primeiro apontar para ele
-    if (this->primeiro == nullptr)
-    {
-        this->primeiro = new NoSEncad(valor);
-        return;
-    }
-
-    // Percorrer a lista até chegar no ultimo nó
-    NoSEncad *atual = primeiro;
-    while (atual->ObterProximo() != nullptr)
-        atual = atual->ObterProximo();
-
-    // Aloque o novo no e faça o proximo do ultimo atual apontar
-    // para o proximo no
-    NoSEncad *node = new NoSEncad(valor);
-    atual->AlteraProximo(node);
 }
 
 // Retorna o tamanho da lista

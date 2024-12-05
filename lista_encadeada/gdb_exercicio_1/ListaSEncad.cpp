@@ -12,39 +12,47 @@ void ListaSEncad::InsereApos(int n, int s, int tamLista)
         return;
     }
 
-    // Verifica se só existe N na lista -> Se sim, o próximo de S precisa ser null;
-    if (primeiro->ObterValor() == n && tamLista == 1)
-    {
-        cout << "Somente N na lista!" << endl;
-        NoSEncad *new_no = new NoSEncad(s);
-        primeiro->AlteraProximo(new_no);
-        new_no->AlteraProximo(nullptr);
-        cout << endl;
-        tamLista++;
-        return;
-    }
-    else
-    {
-        //Apontando para o primeiro da lista!
-        NoSEncad *atual = this->primeiro;
+    // Apontando para o primeiro da lista!
+    NoSEncad *atual = this->primeiro;
 
-        //Enquanto for diferente de nullptr (último próximo)
-        while(atual != nullptr) {
-            if(atual->ObterValor() == n) {
-                cout << "N encontrado!" << endl;
-                //Adicionar o S
-                break;
-            } else {
-                //Andar com o ponteiro atual até encontrar N 
-                cout << atual->ObterValor() << endl;
-                atual = atual->ObterProximo();
-                atual->AlteraProximo(atual);
-                cout << atual->ObterProximo() << endl;
-                cout << "N não encontrado!" << endl;
+    // Enquanto atual diferente de nullptr (último próximo)
+    while (atual != nullptr)
+    {
+        if (atual->ObterValor() == n)
+        {
+            cout << "N encontrado!" << endl;
+            NoSEncad *novo_no = new NoSEncad(s);
+            cout << "Endereco do novo_no: " << novo_no << endl;
+            cout << "Valor do novo no: " << novo_no->ObterValor() << endl;
+            novo_no->AlteraProximo(atual->ObterProximo());
+            cout << "Endereco do proximo do novo no: " << novo_no->ObterProximo() << endl;
+            atual->AlteraProximo(novo_no);
+            if (atual->ObterProximo() == novo_no)
+            {
+                atual = novo_no;
+                cout << "No adicionado com sucesso!" << endl;
             }
+            else
+            {
+                cout << "Novo no não conectado a lista encadeada!" << endl;
+                break;
+            }
+            cout << endl;
+        }
+        else
+        {
+            // Andar com o ponteiro atual até encontrar N
+            cout << "Endereco do atual: " << atual << endl;
+            cout << "Endereco do proximo do atual: " << atual->ObterProximo() << endl;
+            cout << "Valor do atual: " << atual->ObterValor() << endl;
+            cout << endl;
+            cout << "Ponteiro andou!";
+            cout << endl;
+            atual = atual->ObterProximo();
         }
     }
 }
+// }
 
 ListaSEncad::ListaSEncad() : primeiro(nullptr)
 {
