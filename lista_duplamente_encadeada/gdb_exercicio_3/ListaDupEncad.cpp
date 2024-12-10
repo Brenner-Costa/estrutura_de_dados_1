@@ -1,6 +1,8 @@
 
+#include <iostream>
 #include "ListaDupEncad.h"
 
+using namespace std;
 // IMPLEMENTE AQUI
 ListaDupEncad *ListaDupEncad::ExtraiSublista(int start, int end)
 {
@@ -22,7 +24,47 @@ ListaDupEncad *ListaDupEncad::ExtraiSublista(int start, int end)
 
     */
 
+    NoDupEncad *atual = primeiro;
 
+    ListaDupEncad *novaLista;
+    NoDupEncad *pont_start = nullptr;
+    NoDupEncad *pont_end = nullptr;
+    NoDupEncad *aux = nullptr;
+
+    int contador = 0;
+    while(atual != nullptr) {
+        cout << "contador: " << contador << endl;
+        if(contador == start) {
+            pont_start = atual;
+            cout << "Ponteiro Start iniciado!" << endl;
+        } else if (contador == end) {
+            pont_end = atual;
+            cout << pont_end->ObterValor() << endl;
+            cout << "Ponteiro end iniciado!" << endl;
+            aux = pont_start->ObterAnterior();
+            aux->AlterarProximo(pont_end->ObterProximo()); //O nó anterior ao start receber o proximo de end
+
+            aux = pont_end->ObterProximo();
+            aux->AlterarAnterior(pont_start->ObterAnterior());
+            pont_start->AlterarAnterior(nullptr); //Desconecta start da lista original
+            pont_end->AlterarProximo(nullptr); // desconectar o end da lista original
+            cout << "Nós Desconectados da lista original!" << endl;
+            
+        } else {
+            atual = atual->ObterProximo();
+        }
+        contador++;
+    } 
+
+    while (pont_start!= nullptr)
+    {
+        cout << "Cheguei: " << pont_start->ObterValor();
+        novaLista->Insere(pont_start->ObterValor());
+        
+        pont_start = pont_start->ObterProximo();
+    }
+    
+    return novaLista;
 
 }
 

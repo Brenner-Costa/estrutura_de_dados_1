@@ -12,15 +12,15 @@ int main()
     int n_nos;
     int no;
 
-    //cout << "Digite o número de nós: ";
+    cout << "Digite o número de nós: ";
     cin >> n_nos;
-    //cout << "Digite os valores dos nós: ";
+    cout << "Digite os valores dos nós: ";
     for(int i = 0; i < n_nos; i++) {
         cin >> no;
         lista.Insere(no);
     }
 
-    //cout << "Digite posição inicial e final: ";
+    cout << "Digite posição inicial e final: ";
     int start, end;
     cin >> start >> end;
     cout << "Lista Original: ";
