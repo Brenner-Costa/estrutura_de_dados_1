@@ -18,37 +18,35 @@ ListaCont::~ListaCont()
 
 bool ListaCont::adiciona(int valor)
 {
-    // Como a lista esta vazia, a última posição do array é a primeira (ZERO)
-    // Fazer quantNos++ ao final de cada inserção
-    // Para adicionar, vamos verificar se quantNos é maior do que zero e menor do que max
-    // Para saber aonde adicionar faça um QUANTNOS + 1 (Que ai vai pegar a posição após o último nó presente)
-    // ERREI NA VERIFICAÇÃO DA LISTA VAZIA, FOI DESNECESSÁRIO. DE RESTO EU FIZ TUDO CERTO.
-
     if (quantNos < maxTam)
     {
         vet[quantNos] = valor;
         quantNos++;
         return true;
     }
-
+    else if (quantNos == maxTam)
+    {
+        cout << "Lista cheia!" << endl;
+    }
+    
     return false;
 }
 
 // Troca dois elementos na lista
 bool ListaCont::troca(int posicao1, int posicao2)
 {
-    // Criar variavel auz para auxiliar na troca.
-    // aux recebe posicao1 -> posicao1 recebe posicao2 -> posicao2 recebe aux
 
-    if (posicao1 >= 0 && posicao2 >= 0 && posicao1 <= quantNos && posicao2 <= quantNos)
+    if (posicao1 <= quantNos && posicao1 > 0 && posicao2 <= quantNos && posicao2 > 0 && posicao1 < maxTam && posicao2 < maxTam)
     {
-        int aux = vet[posicao1];
+        int auxiliar;
+        auxiliar = vet[posicao1];
         vet[posicao1] = vet[posicao2];
-        vet[posicao2] = aux;
+        vet[posicao2] = auxiliar;
         return true;
+    } else {
+        cout << "Posições inválidas!" << endl;
+        return false;
     }
-
-    return false;
 }
 
 void ListaCont::imprime() const

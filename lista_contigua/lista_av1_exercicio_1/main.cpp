@@ -9,17 +9,16 @@ int main()
     ListaCont lista(10);
 
     // Adicionando elementos à lista
-    lista.adiciona(1);
-    lista.adiciona(2);
-    lista.adiciona(3);
-    lista.adiciona(4);
+    for(int i = 0; i < 10; i++) {
+        lista.adiciona(i);
+    }
 
     cout << "Lista antes da troca: ";
     lista.imprime();
     cout << endl;
 
     // Testando a troca
-    if (lista.troca(1, 3))
+    if (lista.troca(1, 9))
     {
         cout << "Troca realizada com sucesso!" << endl;
     }
