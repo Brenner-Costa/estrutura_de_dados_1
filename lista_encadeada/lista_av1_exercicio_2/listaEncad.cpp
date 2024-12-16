@@ -32,25 +32,17 @@ ListaEncad::~ListaEncad()
 // Adiciona um novo nó no início da lista
 void ListaEncad::adiciona(int valor)
 {
-    if (n == 0)
-    {
-        // Lista vazia e colocando o primeiro nó na lista
+    if(head == nullptr) {
         No *p = new No();
         p->setInfo(valor);
         p->setProx(nullptr);
         head = p;
-        aux = head;
-        n++;
+    } else {
+        No *novoNo = new No();
+        novoNo->setInfo(valor);
+        novoNo->setProx(head);
+        head = novoNo;
     }
-
-    No *new_no = new No();
-    head = new_no;
-    new_no->setInfo(valor);
-    new_no->setProx(aux);
-
-    cout << n << endl;
-    aux = new_no;
-    n++;
 }
 
 void ListaEncad::imprimeLista() {
@@ -70,21 +62,19 @@ void ListaEncad::imprimeLista() {
 }
 
 int ListaEncad::contaMaiores(int valor) {
-    //Verificar se o info de um nó é maior que val
-    // No *atual = head;
-    // int maiores = 0;
+    No *atual = head;
 
-    // for(int i = 0; i < n; i++) {
-    //     if(atual->getInfo() < valor) {
-    //         atual->setProx()
-    //     }
-    // }
+    int acumuladora = 0;
+    while(atual != nullptr) {
+        if(atual->getInfo() > valor) {
+            acumuladora++;
+            // cout << "Maior: " << atual->getInfo() << endl;
+            atual = atual->getProx();
+        } else {
+            // cout << "Menor: " << atual->getInfo() << endl;
+            atual = atual->getProx();
+        }
+    }
 
-    // while(atual->getInfo() ) {
-    //     cout << "Teste" << endl;
-    //     cout << atual-> getInfo() << endl;
-    //     maiores++;
-    // }
-    
-    // return maiores;
+    return acumuladora;
 }

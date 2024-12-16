@@ -8,8 +8,6 @@ using namespace std;
 ListaEncad::ListaEncad()
 {
     head = nullptr;
-    aux = nullptr;
-    n = 0;
 }
 
 // Destrutor: libera a memória alocada para os nós
@@ -32,45 +30,54 @@ ListaEncad::~ListaEncad()
 // Adiciona um novo nó no início da lista
 void ListaEncad::adiciona(int valor)
 {
-    if (n == 0)
+    // fazer o novo no apontar para onde o primeiro aponta
+    // Primeiro vai receber o novo no
+
+    if (head == nullptr)
     {
-        // Lista vazia e colocando o primeiro nó na lista
-        No *p = new No();
-        p->setInfo(valor);
-        p->setProx(nullptr);
-        head = p;
-        aux = head;
-        n++;
+        head = new No();
+        head->setInfo(valor);
+        head->setProx(nullptr);
     }
-
-    No *new_no = new No();
-    head = new_no;
-    new_no->setInfo(valor);
-    new_no->setProx(aux);
-
-    cout << n << endl;
-    aux = new_no;
-    n++;
+    else
+    {
+        No *novoNo = new No();
+        novoNo->setInfo(valor);
+        novoNo->setProx(head);
+        head = novoNo;
+    }
 }
 
 // Calcula o comprimento da lista
 int ListaEncad::getComprimento() const
 {
-    return n-1;
+    No *atual = head;
+
+    int acumuladora = 0;
+    while (atual != nullptr)
+    {
+        atual = atual->getProx();
+        acumuladora++;
+    }
+
+    return acumuladora;
 }
 
-void ListaEncad::imprimeLista() {
-    No* atual = head; // Começa pelo primeiro nó (head)
-    
-    if (atual == nullptr) {
+void ListaEncad::imprimeLista()
+{
+    No *atual = head; // Começa pelo primeiro nó (head)
+
+    if (atual == nullptr)
+    {
         cout << "A lista está vazia!" << endl;
         return;
     }
 
     cout << "Elementos da lista: ";
-    while (atual != nullptr) { 
-        cout << atual->getInfo() << " "; 
-        atual = atual->getProx();     
+    while (atual != nullptr)
+    {
+        cout << atual->getInfo() << " ";
+        atual = atual->getProx();
     }
     cout << endl;
 }

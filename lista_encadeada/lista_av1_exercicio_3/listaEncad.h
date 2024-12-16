@@ -13,7 +13,7 @@ public:
     ListaEncad();               // Construtor
     ~ListaEncad();              // Destrutor
     void adiciona(int valor);   // Adiciona um novo nó
-    int getComprimento() const; // Calcula o comprimento da lista
+    void insereOrdenado (int val ) ;
     void imprimeLista();
 };
 
