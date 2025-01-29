@@ -19,17 +19,17 @@ NoArvBin *ArvBin::buscar(NoArvBin *no, int chave)
 
     */
 
-
     if (no == nullptr || no->getChave() == chave)
     {
         return no;
     }
 
-    if(chave < no->getChave()) {
+    if (chave < no->getChave())
+    {
         cout << no->getChave() << endl;
         return buscar(no->getEsq(), chave);
     }
-cout << no->getChave() << endl;
+    cout << no->getChave() << endl;
     return buscar(no->getDir(), chave);
 }
 
@@ -47,14 +47,14 @@ int ArvBin::altura(NoArvBin *no)
         - O caso base serve para quando encontrarmos um nó vazio, ou seja, com um NULL. (Nós que ficam após as folhas ou nós com 1 filho só)
         - A recursão sempre se inicia pela esquerda, empilhando diversas chamadas recursivas até que exista um retorno para que chamou.
         - Após o nó a esquerda, vamos para a direita e o percurso será o mesmo.
-        
+
         - No final, retornaremos para quem chamou o nó pai (dos anteriores nós da esquerda e direita) um somátorio.
         - Nesse somatório iremos escolher entre o valor do nó a direita ou o nó a esquerda.
-        - Escolhido o nó com o maior valor, iremos somar 1 e retornar para quem chamou. 
+        - Escolhido o nó com o maior valor, iremos somar 1 e retornar para quem chamou.
     */
 
-
-    if(no == nullptr) {
+    if (no == nullptr)
+    {
         return -1;
     }
 
@@ -62,7 +62,6 @@ int ArvBin::altura(NoArvBin *no)
     int alturaRetornoDir = altura(no->getDir());
 
     return (alturaRetornoEsq > alturaRetornoDir ? alturaRetornoEsq : alturaRetornoDir) + 1;
-
 }
 
 // Construtor
