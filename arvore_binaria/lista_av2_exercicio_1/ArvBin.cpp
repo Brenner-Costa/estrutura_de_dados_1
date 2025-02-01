@@ -238,3 +238,4 @@ int ArvBin::maioresQueVal(NoArvBin *no, int val)
 
     return (no->getChave() > val ? 1 : 0) + esq + dir;
 }
+

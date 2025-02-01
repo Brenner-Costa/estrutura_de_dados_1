@@ -41,12 +41,11 @@ void CalculaNumeroFolhas(NoArvBin *no, int &num_folhas){
 
     if(no->getDir() == nullptr && no->getEsq() == nullptr) {
         num_folhas++;
-        cout << "Folha -> " << no->getChave() << " encontrado!" << endl;
+        //cout << "Folha -> " << no->getChave() << " encontrado!" << endl;
     } else {
         CalculaNumeroFolhas(no->getEsq(), num_folhas); //somente depois do retorno para quem chamou que vai para o nó da direita.
         CalculaNumeroFolhas(no->getDir(), num_folhas);
     }
-
 }
 
 
@@ -75,7 +74,7 @@ void Teste2(ArvBin &arv){
     cout << "Teste 2: Busca de elementos" << endl;
     cout <<"--------------------------------------------" << endl;
     // Busque os elementos 5 e 10 na árvore
-    NoArvBin *no_busca = arv.buscar(13);
+    NoArvBin *no_busca = arv.buscar(5);
     if(no_busca != nullptr){
          cout << "No encontrado: " << no_busca->getChave() << endl;
     }

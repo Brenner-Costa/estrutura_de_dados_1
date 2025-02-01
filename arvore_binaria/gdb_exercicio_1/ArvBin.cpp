@@ -19,18 +19,28 @@ NoArvBin *ArvBin::buscar(NoArvBin *no, int chave)
 
     */
 
-    if (no == nullptr || no->getChave() == chave)
+    if (no == nullptr)
     {
+        return nullptr;
+    }
+
+    if(no->getChave() == chave) {
         return no;
     }
 
-    if (chave < no->getChave())
-    {
-        cout << no->getChave() << endl;
-        return buscar(no->getEsq(), chave);
+    NoArvBin *esq = buscar(no->getEsq(), chave);
+
+    //Basicamente, iremos ir subindo os valores. O null vai subindo e se algum valor for diferente de null, VAI SER O NO DESEJADO.
+    //Observe o caso base, existem 2 retornos -> Ou null ou a chave
+    //Em baixo apenas iremos fazer a verificação de qual retorno foi usado -> o null ou a chave (ISSO NA SUBARVORE ESQUERDA, NA DIREITA ISSO NÃO VAI SER NECESSÁRIO)
+    //O valor que será retornado para main é o que foi subindo até chegar no 76 e esse valor será retornado para a MAIN.
+    
+    if(esq != nullptr) {
+        return esq;
     }
-    cout << no->getChave() << endl;
+
     return buscar(no->getDir(), chave);
+
 }
 
 // Retorna a altura da árvore
