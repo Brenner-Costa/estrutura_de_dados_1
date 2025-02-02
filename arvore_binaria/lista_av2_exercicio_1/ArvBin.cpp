@@ -239,3 +239,10 @@ int ArvBin::maioresQueVal(NoArvBin *no, int val)
     return (no->getChave() > val ? 1 : 0) + esq + dir;
 }
 
+void ArvBin::contaElegante(NoArvBin *raiz, int contPares, int contFolhas)
+{
+}
+
+void ArvBin::conta()
+{
+}

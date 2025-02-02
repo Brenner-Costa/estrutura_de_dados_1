@@ -2,38 +2,76 @@
 #include "ABB.h"
 
 #include <iostream>
+#include <climits>
 using namespace std;
 
-NoABB *ABB::removeMaior(NoABB *raiz)
+bool ABB::verifica()
 {
- 
-    if (raiz == nullptr)
-    {
-        return nullptr;
-    }
 
-    // Se o filho a direita for null -> significa que o maior foi encontrado -> SOMENTE A DIREITA
-    if (raiz->getDir() == nullptr)
-    {
-
-        if (raiz->getEsq() != nullptr)
-        {
-            remove(raiz->getChave());
-            return 0;
-        }
-
-        remove(raiz->getChave());
-        return 0;
-    }
-
-    removeMaior(raiz->getDir());
-
-    return raiz;
+    return verificaArvore(raiz, INT_MIN, INT_MAX);
 }
 
-void ABB::removeMaior()
+bool ABB::verificaArvore(NoABB *no, int minVal, int maxVal)
 {
-    raiz = removeMaior(raiz);
+    /*
+        - Caso chegue em null, significa que a árvore foi até o nível mais baixo. O que significa que a ABB é válida!
+        - No IF seguinte, verifico se o nó atual está dentro dos limites estabelecidos.
+            - minVal -> menor valor que o nó pode ter para ser válido.
+            - maxVal -> Maior valor que o nó pode ter para ser válido.
+            - Dependendo de onde está sendo verificado o nó atual, não vai ser necessário um limite, apenas tenderá para um infinito de valores
+            pequenos ou grandes.
+            - Se estiver na direita, não importa o quão grande ele seja, ele só não pode ser menor que o pai.
+            - Se estiver na esquerda é o mesmo esquema, mas ele não pode ser maior que o pai.
+
+            - Por isso passo o no.getchave() como parâmetro -> Para que o esquerdo ou o direito não o ultrapasse.
+
+            No retorno eu só verifico se ambas variáveis são true, se sim, a ABB é válida!
+            Vai retornar 1 ou 0
+    */
+
+    if(no == nullptr){
+        return true;
+    }
+
+    if(no-> getChave() <= minVal || no->getChave() >= maxVal) {
+        cout << "Chave inválida! -> " << no->getChave() << endl;
+        return false;
+    }
+
+    bool esq = verificaArvore(no->getEsq(), minVal, no->getChave());
+    bool dir = verificaArvore(no->getDir(), no->getChave(), maxVal);
+
+    return esq && dir;
+}
+
+
+NoABB* ABB::segundoMaior(NoABB* raiz) {
+    if (!raiz || (!raiz->getDir() && !raiz->getEsq())) {
+        cout << "NÃO POSSUI 2 NÓS" << endl;
+        return nullptr;
+    }
+    
+    if (raiz->getDir() && !raiz->getDir()->getDir() && !raiz->getDir()->getEsq()) {
+        return raiz;
+    }
+    
+    if (raiz->getDir()) {
+        return segundoMaior(raiz->getDir());
+    }
+    
+    NoABB* atual = raiz->getEsq();
+    while (atual->getDir()) {
+        atual = atual->getDir();
+    }
+    return atual;
+}
+
+int ABB::segundoMaior() {
+    NoABB* segundoMaiorRetorno = segundoMaior(raiz);
+    if (!segundoMaiorRetorno) {
+        return -1;
+    }
+    return segundoMaiorRetorno->getChave();
 }
 
 ABB::ABB()
@@ -69,7 +107,9 @@ NoABB *ABB::sucessor(NoABB *no)
     {
         NoABB *min = no->dir;
         while (min->esq != nullptr)
+        {
             min = min->esq;
+        }
         return min;
     }
     NoABB *sucessor = nullptr;
@@ -95,7 +135,9 @@ NoABB *ABB::antecessor(NoABB *no)
     {
         NoABB *max = no->esq;
         while (max->dir != nullptr)
+        {
             max = max->dir;
+        }
         return max;
     }
     NoABB *antecessor = nullptr;
