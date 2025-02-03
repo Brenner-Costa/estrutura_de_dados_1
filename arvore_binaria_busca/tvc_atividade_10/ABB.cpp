@@ -2,39 +2,8 @@
 #include "ABB.h"
 
 #include <iostream>
+#include <climits>
 using namespace std;
-
-NoABB *ABB::removeMaior(NoABB *raiz)
-{
- 
-    if (raiz == nullptr)
-    {
-        return nullptr;
-    }
-
-    // Se o filho a direita for null -> significa que o maior foi encontrado -> SOMENTE A DIREITA
-    if (raiz->getDir() == nullptr)
-    {
-
-        if (raiz->getEsq() != nullptr)
-        {
-            remove(raiz->getChave());
-            return 0;
-        }
-
-        remove(raiz->getChave());
-        return 0;
-    }
-
-    removeMaior(raiz->getDir());
-
-    return raiz;
-}
-
-void ABB::removeMaior()
-{
-    raiz = removeMaior(raiz);
-}
 
 ABB::ABB()
 {
@@ -44,6 +13,36 @@ ABB::ABB()
 ABB::~ABB()
 {
     destruir(raiz);
+}
+
+int ABB::ipmParcial()
+{
+    return impressaoParcial(raiz, 2, 16);
+}
+
+int ABB::impressaoParcial(NoABB *no, int a, int b) {
+    if (no == nullptr) return 0;
+
+    int soma = 0;
+
+    if (no->getChave() > a) {
+        soma += impressaoParcial(no->getEsq(), a, b);
+    }
+
+    if (no->getChave() > a && no->getChave() < b) {
+        int somaFilhos = (no->getEsq() ? no->getEsq()->getChave() : 0) + (no->getDir() ? no->getDir()->getChave() : 0);
+        
+        if (somaFilhos % 2 == 0) {
+            soma += no->getChave();
+            cout << "No: " << no->getChave() << endl;
+        }
+    }
+
+    if (no->getChave() < b) {
+        soma += impressaoParcial(no->getDir(), a, b);
+    }
+
+    return soma;
 }
 
 NoABB *ABB::buscar(int chave)
@@ -69,7 +68,9 @@ NoABB *ABB::sucessor(NoABB *no)
     {
         NoABB *min = no->dir;
         while (min->esq != nullptr)
+        {
             min = min->esq;
+        }
         return min;
     }
     NoABB *sucessor = nullptr;
@@ -95,7 +96,9 @@ NoABB *ABB::antecessor(NoABB *no)
     {
         NoABB *max = no->esq;
         while (max->dir != nullptr)
+        {
             max = max->dir;
+        }
         return max;
     }
     NoABB *antecessor = nullptr;

@@ -2,39 +2,8 @@
 #include "ABB.h"
 
 #include <iostream>
+#include <climits>
 using namespace std;
-
-NoABB *ABB::removeMaior(NoABB *raiz)
-{
- 
-    if (raiz == nullptr)
-    {
-        return nullptr;
-    }
-
-    // Se o filho a direita for null -> significa que o maior foi encontrado -> SOMENTE A DIREITA
-    if (raiz->getDir() == nullptr)
-    {
-
-        if (raiz->getEsq() != nullptr)
-        {
-            remove(raiz->getChave());
-            return 0;
-        }
-
-        remove(raiz->getChave());
-        return 0;
-    }
-
-    removeMaior(raiz->getDir());
-
-    return raiz;
-}
-
-void ABB::removeMaior()
-{
-    raiz = removeMaior(raiz);
-}
 
 ABB::ABB()
 {
@@ -44,6 +13,40 @@ ABB::ABB()
 ABB::~ABB()
 {
     destruir(raiz);
+}
+
+void ABB::nivel(int k)
+{
+    int nivel = 0;
+    int *soma = new int[k + 1];
+
+    for (int i = 0; i <= k; i++)
+    {
+        soma[i] = 0;
+    }
+
+    somaNivel(raiz, k, nivel, soma);
+
+    for (int i = 0; i <= k; ++i)
+    {
+        std::cout << "Nivel " << i << ": " << soma[i] << endl;
+    }
+    
+    delete[] soma;
+}
+
+void ABB::somaNivel(NoABB *no, int k, int nivel, int *soma)
+{
+
+    if (no == nullptr || nivel > k)
+    {
+        return;
+    }
+
+    soma[nivel] += no->getChave();
+
+    somaNivel(no->getEsq(), k, nivel + 1, soma);
+    somaNivel(no->getDir(), k, nivel + 1, soma);
 }
 
 NoABB *ABB::buscar(int chave)
@@ -69,7 +72,9 @@ NoABB *ABB::sucessor(NoABB *no)
     {
         NoABB *min = no->dir;
         while (min->esq != nullptr)
+        {
             min = min->esq;
+        }
         return min;
     }
     NoABB *sucessor = nullptr;
@@ -95,7 +100,9 @@ NoABB *ABB::antecessor(NoABB *no)
     {
         NoABB *max = no->esq;
         while (max->dir != nullptr)
+        {
             max = max->dir;
+        }
         return max;
     }
     NoABB *antecessor = nullptr;
